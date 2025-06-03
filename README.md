@@ -4,7 +4,7 @@ A full-stack web application that allows users to assess the suitability of a lo
 
 ## 📸 Preview
 
-![App Screenshot](screenshots/app-preview.png)
+![Wind Power JPEG](https://github.com/user-attachments/assets/3ff87a3a-6d67-4164-8f78-13e337f6ced1)
 
 ---
 

@@ -31,14 +31,20 @@ function App() {
 
   const fetchSiteData = async (e) => {
     e.preventDefault()
-    try {
-      const API_BASE = import.meta.env.VITE_API_BASE_URL;
 
-      const res = await axios.post(`${API_BASE}/site-data`, {
+    if (!lat || !lon) {
+      alert("Please enter or select valid latitude and longitude.")
+      return
+    }
+
+    try {
+      const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5001'
+
+      const res = await axios.post(`${API_BASE}/api/site-data`, {
         latitude: lat,
         longitude: lon
-    });
-    
+      })
+
       const { wind_speed, elevation, directionData } = res.data
 
       const score = calculateSuitabilityScore(wind_speed, elevation)
@@ -52,8 +58,8 @@ function App() {
   }
 
   const calculateSuitabilityScore = (wind, elev) => {
-    let windScore = Math.min(wind / 10, 1) * 70 // up to 70%
-    let elevScore = Math.min(elev / 500, 1) * 30 // up to 30%
+    let windScore = Math.min(wind / 10, 1) * 70
+    let elevScore = Math.min(elev / 500, 1) * 30
     return Math.round(windScore + elevScore)
   }
 

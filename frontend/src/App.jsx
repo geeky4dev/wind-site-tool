@@ -32,10 +32,13 @@ function App() {
   const fetchSiteData = async (e) => {
     e.preventDefault()
     try {
-      const res = await axios.post('/api/site-data', {
+      const API_BASE = import.meta.env.VITE_API_BASE_URL;
+
+      const res = await axios.post(`${API_BASE}/site-data`, {
         latitude: lat,
         longitude: lon
-      })
+    });
+    
       const { wind_speed, elevation, directionData } = res.data
 
       const score = calculateSuitabilityScore(wind_speed, elevation)

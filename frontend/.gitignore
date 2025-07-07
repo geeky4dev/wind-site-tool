@@ -1,5 +1,5 @@
 # Logs
-logs
+logs/
 *.log
 npm-debug.log*
 yarn-debug.log*
@@ -7,18 +7,33 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
-*.local
+# Dependency directories
+node_modules/
 
-# Editor directories and files
-.vscode/*
-!.vscode/extensions.json
-.idea
+# Build outputs
+dist/
+dist-ssr/
+
+# Local env files
+*.local
+.env.development
+.env.production  # Si quieres ignorar también el env de producción
+
+# IDE / Editor directories and files
+.vscode/
+!.vscode/extensions.json  # Permitir compartir las extensiones recomendadas
+.idea/
 .DS_Store
+
+# Visual Studio files
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
+
+# Swap files (vim, etc)
 *.sw?
+
+# Otros archivos temporales o de sistema que suelen molestarte:
+*.bak
+*.tmp

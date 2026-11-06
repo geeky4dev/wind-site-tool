@@ -150,7 +150,35 @@ def site_data():
         return jsonify({
             "error": "Internal server error"
         }), 500
+@app.route('/api/diagnostic', methods=['GET'])
+def diagnostic():
+    try:
+        start = time.monotonic()
 
+        response = requests.get(
+            "https://api.open-meteo.com/v1/forecast",
+            params={
+                "latitude": 48.137154,
+                "longitude": 11.576124,
+                "hourly": "wind_speed_10m"
+            },
+            timeout=20
+        )
+
+        elapsed = round(time.monotonic() - start, 2)
+
+        return jsonify({
+            "provider": "Open-Meteo",
+            "http_status": response.status_code,
+            "response_time_seconds": elapsed,
+            "retry_after": response.headers.get("Retry-After"),
+            "response": response.text[:500]
+        }), 200
+
+    except requests.RequestException as e:
+        return jsonify({
+            "error": str(e)
+        }), 502
 
 if __name__ == '__main__':
     app.run(

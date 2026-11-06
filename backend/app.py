@@ -4,6 +4,7 @@ from flask_cors import CORS
 import requests
 import random
 import time
+import os
 
 app = Flask(__name__)
 CORS(app)
@@ -69,7 +70,7 @@ def site_data():
             app.logger.info("Using cached site data")
 
         else:
-            # Open-Meteo: velocidad del viento
+            # Open-Meteo: viento y elevación en una sola consulta
             wind_data = get_api_data(
                 "https://api.open-meteo.com/v1/forecast",
                 {
@@ -98,24 +99,16 @@ def site_data():
 
             wind_speed = speeds[0]
 
-            # Open-Meteo: elevación
-            elev_data = get_api_data(
-                "https://api.open-meteo.com/v1/elevation",
-                {
-                    "latitude": lat,
-                    "longitude": lon
-                }
-            )
+            # La respuesta forecast también contiene elevation
+            elevation_value = wind_data.get("elevation")
 
-            elevations = elev_data.get("elevation", [])
-
-            if not elevations or elevations[0] is None:
+            if elevation_value is None:
                 return jsonify({
                     "error": "Elevation unavailable"
                 }), 502
 
-            # Mantener el formato de lista del endpoint actual
-            elevation = elevations
+            # Mantener el formato de lista esperado por el frontend
+            elevation = [elevation_value]
 
             # Guardar resultados meteorológicos
             CACHE[cache_key] = {
@@ -160,7 +153,6 @@ def site_data():
 
 
 if __name__ == '__main__':
-    import os
     app.run(
         host='0.0.0.0',
         port=int(os.environ.get('PORT', 5001))

@@ -40,7 +40,7 @@ function App() {
     try {
       const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5001'
 
-      const res = await axios.post(`${API_BASE}/api/site-data`, {
+      const res = await axios.post(`${API_BASE}/site-data`, {
         latitude: lat,
         longitude: lon
       })

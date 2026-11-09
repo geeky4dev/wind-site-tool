@@ -1,3 +1,4 @@
+
 import React from 'react'
 import {
   Chart as ChartJS,
@@ -8,7 +9,12 @@ import {
 } from 'chart.js'
 import { PolarArea } from 'react-chartjs-2'
 
-ChartJS.register(RadialLinearScale, ArcElement, Tooltip, Legend)
+ChartJS.register(
+  RadialLinearScale,
+  ArcElement,
+  Tooltip,
+  Legend
+)
 
 const WindRoseChart = ({ directionData }) => {
   if (!directionData || directionData.length !== 8) {
@@ -18,27 +24,60 @@ const WindRoseChart = ({ directionData }) => {
   const data = {
     labels: ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'],
     datasets: [{
-      label: 'Frecuencia del viento (%)',
+      label: 'Wind frequency (%)',
       data: directionData,
       backgroundColor: [
-        'rgba(255, 99, 132, 0.6)',
-        'rgba(54, 162, 235, 0.6)',
-        'rgba(255, 206, 86, 0.6)',
-        'rgba(75, 192, 192, 0.6)',
-        'rgba(153, 102, 255, 0.6)',
-        'rgba(255, 159, 64, 0.6)',
-        'rgba(199, 199, 199, 0.6)',
-        'rgba(100, 181, 246, 0.6)'
+        'rgba(255, 99, 132, 0.65)',
+        'rgba(54, 162, 235, 0.65)',
+        'rgba(255, 206, 86, 0.65)',
+        'rgba(75, 192, 192, 0.65)',
+        'rgba(153, 102, 255, 0.65)',
+        'rgba(255, 159, 64, 0.65)',
+        'rgba(199, 199, 199, 0.65)',
+        'rgba(100, 181, 246, 0.65)'
       ],
+      borderColor: '#ffffff',
       borderWidth: 1
     }]
   }
 
+  const options = {
+    responsive: true,
+    maintainAspectRatio: true,
+    animation: false,
+    plugins: {
+      legend: {
+        display: true,
+        position: 'bottom'
+      }
+    },
+    scales: {
+      r: {
+        beginAtZero: true,
+        ticks: {
+          backdropColor: 'transparent'
+        }
+      }
+    }
+  }
+
   return (
-  <div style={{ maxWidth: 500, margin: 'auto' }}>
-    <PolarArea data={data} />
-  </div>
-)
+    <div
+      className="wind-rose-chart"
+      style={{
+        width: '100%',
+        maxWidth: '440px',
+        height: '440px',
+        margin: '0 auto',
+        position: 'relative'
+      }}
+    >
+      <PolarArea
+        data={data}
+        options={options}
+      />
+    </div>
+  )
 }
 
 export default WindRoseChart

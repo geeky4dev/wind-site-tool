@@ -45,3 +45,8 @@ backend/app-backup*.py
 *.ntvs*
 *.njsproj
 *.sln
+
+# Local development backups
+*-backup.*
+*-backup-*.*
+*~

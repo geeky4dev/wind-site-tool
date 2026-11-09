@@ -1,42 +1,456 @@
+
+/* ==========================================
+   MAIN APPLICATION
+========================================== */
+
 #root {
+  width: 100%;
+  margin: 0 auto;
+  padding: 0;
+  text-align: left;
+}
+
+.app-container {
+  width: 100%;
   max-width: 1280px;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 1rem;
+}
+
+.site-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.site-form input {
+  padding: 0.65rem;
+  border: 1px solid #ced4da;
+  border-radius: 5px;
+}
+
+.site-form button,
+.download-button {
+  padding: 0.7rem 1.2rem;
+  border: none;
+  border-radius: 6px;
+  background: #198754;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.download-button {
+  margin-top: 1rem;
+  font-size: 1rem;
+}
+
+.download-button:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.screen-results {
+  margin: 1.5rem 0;
+  padding: 1.5rem;
+  border: 1px solid #dddddd;
+  border-radius: 8px;
+}
+
+.examples-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.examples-table th,
+.examples-table td {
+  padding: 8px;
+  border: 1px solid #cccccc;
+  text-align: left;
+}
+
+
+/* ==========================================
+   PDF EXPORT CONTAINER
+========================================== */
+
+.pdf-export-wrapper {
+  position: fixed;
+  left: -12000px;
+  top: 0;
+  width: 210mm;
+  z-index: -1;
+}
+
+.pdf-report {
+  width: 210mm;
+  margin: 0;
+  padding: 0;
+  background: #ffffff;
+  color: #212529;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 10pt;
+}
+
+
+/* ==========================================
+   A4 PAGE CONFIGURATION
+========================================== */
+
+.pdf-page {
+  position: relative;
+  box-sizing: border-box;
+  width: 210mm;
+  height: 296mm;
+  min-height: 296mm;
+  max-height: 296mm;
+  padding: 15mm 16mm 19mm;
+  overflow: hidden;
+  background: #ffffff;
+  color: #212529;
+}
+
+/* Page 1 ends with a page break. */
+
+.pdf-page-1 {
+  break-after: page;
+  page-break-after: always;
+}
+
+/* Page 2 follows page 1 without another forced break. */
+
+.pdf-page-2 {
+  break-before: auto;
+  page-break-before: auto;
+}
+
+
+/* ==========================================
+   REPORT HEADER
+========================================== */
+
+.report-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 7mm;
+  border-bottom: 2px solid #17365d;
+}
+
+.report-brand {
+  color: #17365d;
+  font-size: 17pt;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.report-subbrand {
+  margin-top: 2px;
+  color: #64748b;
+  font-size: 8pt;
+  letter-spacing: 1px;
+}
+
+.report-document-type {
+  color: #64748b;
+  font-size: 8pt;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+
+/* ==========================================
+   REPORT TITLE
+========================================== */
+
+.report-title-block {
+  margin: 13mm 0 10mm;
+}
+
+.report-kicker {
+  color: #198754;
+  font-size: 8pt;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+}
+
+.report-title-block h1 {
+  margin: 3mm 0;
+  color: #17365d;
+  font-size: 24pt;
+  line-height: 1.2;
+}
+
+.report-title-block p {
+  margin: 2mm 0 0;
+  color: #64748b;
+  font-size: 10pt;
+}
+
+
+/* ==========================================
+   REPORT SECTIONS
+========================================== */
+
+.report-section {
+  margin-top: 9mm;
+}
+
+.report-section h2 {
+  margin: 0 0 5mm;
+  padding-bottom: 2mm;
+  border-bottom: 1px solid #dbe2ea;
+  color: #17365d;
+  font-size: 12pt;
+}
+
+
+/* ==========================================
+   SITE COORDINATES
+========================================== */
+
+.report-coordinates {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5mm;
+}
+
+.report-coordinates div,
+.metric-card {
+  padding: 5mm;
+  border: 1px solid #dbe2ea;
+  border-radius: 5px;
+  background: #f8fafc;
+}
+
+.report-coordinates span,
+.metric-card span {
+  display: block;
+  margin-bottom: 2mm;
+  color: #64748b;
+  font-size: 8pt;
+  font-weight: 700;
+}
+
+.report-coordinates strong {
+  color: #17365d;
+  font-size: 15pt;
+}
+
+
+/* ==========================================
+   WIND RESOURCE METRICS
+========================================== */
+
+.report-metrics {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5mm;
+}
+
+.metric-card strong {
+  display: block;
+  color: #17365d;
+  font-size: 25pt;
+  line-height: 1.2;
+}
+
+.metric-card small {
+  color: #64748b;
+  font-size: 9pt;
+}
+
+
+/* ==========================================
+   SUITABILITY SCORE
+========================================== */
+
+.report-score {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.score-value {
+  color: #17365d;
+  font-size: 32pt;
+  font-weight: 800;
+}
+
+.score-value span {
+  color: #64748b;
+  font-size: 13pt;
+}
+
+.score-label {
+  color: #17365d;
+  font-size: 12pt;
+  font-weight: 700;
+}
+
+.report-score-track {
+  width: 100%;
+  height: 8px;
+  margin-top: 3mm;
+  overflow: hidden;
+  border-radius: 5px;
+  background: #e9ecef;
+}
+
+.report-score-fill {
+  height: 100%;
+}
+
+.report-note,
+.report-methodology p,
+.report-sources p {
+  color: #64748b;
+  font-size: 8.5pt;
+  line-height: 1.5;
+}
+
+.report-note {
+  margin-top: 4mm;
+}
+
+
+/* ==========================================
+   METHODOLOGY AND DATA SOURCES
+========================================== */
+
+.report-methodology,
+.report-sources {
+  margin-top: 9mm;
+  padding: 5mm;
+  border-left: 3px solid #198754;
+  background: #f8fafc;
+}
+
+.report-methodology strong,
+.report-sources strong {
+  color: #17365d;
+  font-size: 9pt;
+}
+
+.report-methodology p,
+.report-sources p {
+  margin: 2mm 0 0;
+}
+
+
+/* ==========================================
+   WIND ROSE CHART
+========================================== */
+
+.report-chart-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 105mm;
+  margin: 2mm auto 5mm;
+}
+
+.wind-rose-chart {
+  position: relative;
+  width: 100%;
+  max-width: 440px;
+  height: 400px;
+  margin: 0 auto;
+}
+
+
+/* ==========================================
+   WIND DIRECTION DISTRIBUTION TABLE
+========================================== */
+
+.direction-table {
+  width: 100%;
+  margin-top: 4mm;
+  border-collapse: collapse;
+  table-layout: fixed;
+  font-size: 9pt;
+}
+
+.direction-table th {
+  background: #17365d;
+  color: #ffffff;
+  font-weight: 700;
+}
+
+.direction-table th,
+.direction-table td {
+  width: 50%;
+  padding: 3mm 4mm;
+  border: 1px solid #dbe2ea;
   text-align: center;
+  vertical-align: middle;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.direction-table tbody tr:nth-child(even) {
+  background: #f8fafc;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+
+/* ==========================================
+   REPORT FOOTER
+========================================== */
+
+.report-footer {
+  position: absolute;
+  right: 16mm;
+  bottom: 9mm;
+  left: 16mm;
+  display: flex;
+  justify-content: space-between;
+  padding-top: 3mm;
+  border-top: 1px solid #dbe2ea;
+  color: #64748b;
+  font-size: 7pt;
+  letter-spacing: 0.4px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+
+/* ==========================================
+   PDF PAGE 2 — SPACE OPTIMIZATION
+========================================== */
+
+.pdf-page-2 .report-title-block {
+  margin: 8mm 0 5mm;
 }
 
-.card {
-  padding: 2em;
+.pdf-page-2 .report-chart-container {
+  height: 75mm;
+  margin: 1mm auto 3mm;
+  overflow: hidden;
 }
 
-.read-the-docs {
-  color: #888;
+.pdf-page-2 .wind-rose-chart {
+  height: 300px !important;
+  max-width: 340px;
+}
+
+.pdf-page-2 .report-section {
+  margin-top: 5mm;
+}
+
+.pdf-page-2 .direction-table {
+  margin-top: 2mm;
+}
+
+.pdf-page-2 .direction-table th,
+.pdf-page-2 .direction-table td {
+  padding: 2mm 3mm;
+}
+
+.pdf-page-2 .report-methodology,
+.pdf-page-2 .report-sources {
+  margin-top: 5mm;
+  padding: 3mm 4mm;
+}
+
+.pdf-page-2 .report-methodology p,
+.pdf-page-2 .report-sources p {
+  margin-top: 1mm;
+  line-height: 1.3;
 }

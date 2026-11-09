@@ -135,7 +135,7 @@ function App() {
             <>
               <h4>🧭 Wind Rose Chart</h4>
               <p style={{ fontStyle: 'italic' }}>
-                The distribution of wind speed and direction (measured %) at a specific location over a defined period.
+                Forecast distribution of wind directions (%) based on hourly weather forecasts for the next 3 days. This is not a historical climatological wind rose.
               </p>
               <WindRoseChart directionData={data.directionData} />
             </>
